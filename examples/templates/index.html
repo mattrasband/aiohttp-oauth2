@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Github Login</title>
+  </head>
+  <body>
+    {% if user %}
+      <div>
+        <a href="/auth/logout">Log Out</a>
+      </div>
+      <div>
+        Hi: {{ user.login }}
+      </div>
+    {% else %}
+      <a href="/auth/github/auth">Log In</a>
+    {% endif %}
+  </body>
+</html>
