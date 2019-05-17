@@ -58,7 +58,7 @@ async def app_factory():
         )
     )
     app.add_subapp(
-        "/github/",
+        "/google/",
         oauth2_app(
             ...,
             authorize_url="https://accounts.google.com/o/oauth2/v2/auth",
