@@ -6,6 +6,10 @@ No opinions about auth mechanisms are enforced on the application, an `on_login`
 
 ## Usage
 
+```bash
+$ pip install -U aiohttp_oauth2
+```
+
 ### Simple
 
 ```python
