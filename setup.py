@@ -1,12 +1,18 @@
+from pathlib import Path
 from setuptools import find_packages, setup
 
-__version__ = "0.0.1"
+__version__ = "0.0.2"
+
+with open(Path(__file__).parent / "README.md") as f:
+    long_description = f.read()
 
 
 setup(
     author="Matt Rasband",
     author_email="matt.rasband@gmail.com",
     description="Provider agnostic OAuth2 client for aiohttp",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     install_requires=["aiohttp"],
     name="aiohttp-oauth2",
     packages=find_packages(exclude=["tests"]),
