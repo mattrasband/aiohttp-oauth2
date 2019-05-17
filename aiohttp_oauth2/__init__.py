@@ -11,7 +11,7 @@ async def client_session(app: web.Application):
         yield
 
 
-def oauth2_app(
+def oauth2_app(  # pylint: disable=too-many-arguments
     client_id: str,
     client_secret: str,
     authorize_url: str,
@@ -21,7 +21,7 @@ def oauth2_app(
     on_error: Optional[Callable[[web.Request, str], web.Response]] = None,
 ) -> web.Application:
     app = web.Application()
-    app.update(
+    app.update(  # pylint: disable=no-member
         CLIENT_ID=client_id,
         CLIENT_SECRET=client_secret,
         AUTHORIZE_URL=authorize_url,
