@@ -10,13 +10,23 @@ jobs:
       - checkout
       - restore_cache:
           keys:
+            - 'venv'
+      - restore_cache:
+          keys:
             - 'tox-{{ checksum "tox.ini" }}'
-      - run: pip install -U --user tox
-      - run: tox
+      - run: |
+          python3 -m venv .venv
+          source .venv/bin/activate
+          pip install -U tox
+          tox
       - save_cache:
           key: 'tox-{{ checksum "tox.ini" }}'
           paths:
             - .tox
+      - save_cache:
+          key: 'venv'
+          paths:
+            - .venv
       - store_test_results:
           path: .tox/py37/artifacts/
   # Deploy to pypi!
