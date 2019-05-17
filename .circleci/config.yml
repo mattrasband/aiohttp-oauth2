@@ -11,7 +11,7 @@ jobs:
       - restore_cache:
           keys:
             - 'tox-{{ checksum "tox.ini" }}'
-      - run: pip install -U tox
+      - run: pip install -U --user tox
       - run: tox
       - save_cache:
           key: 'tox-{{ checksum "tox.ini" }}'
