@@ -30,7 +30,9 @@ class TestCallbackView:
 
         client.server.app["ON_ERROR"] = on_error
 
-        resp = await client.get("/callback", params={"error": "oops"}, allow_redirects=False)
+        resp = await client.get(
+            "/callback", params={"error": "oops"}, allow_redirects=False
+        )
         assert resp.status == 307
         assert resp.headers["location"].endswith("/other/page")
 
