@@ -41,15 +41,23 @@ class CallbackView(web.View):
         if self.request.query.get("error") is not None:
             return self.handle_error(self.request, self.request.query["error"])
 
+        params = {
+            "headers": {"Accept": "application/json"},
+        }
+        body = {
+            "client_id": self.request.app["CLIENT_ID"],
+            "client_secret": self.request.app["CLIENT_SECRET"],
+            "code": self.request.query["code"],
+            "redirect_uri": redirect_uri(self.request),
+        }
+        if self.request.app["DATA_AS_JSON"]:
+            params["json"] = body
+        else:
+            params["data"] = body
+
         async with self.request.app["session"].post(
             self.request.app["TOKEN_URL"],
-            headers={"Accept": "application/json"},
-            json={
-                "client_id": self.request.app["CLIENT_ID"],
-                "client_secret": self.request.app["CLIENT_SECRET"],
-                "code": self.request.query["code"],
-                "redirect_uri": redirect_uri(self.request),
-            },
+            **params
         ) as r:  # pylint: disable=invalid-name
             result = await r.json()
 
