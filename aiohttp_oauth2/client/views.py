@@ -12,7 +12,7 @@ def redirect_uri(request):
 class AuthView(web.View):
     """
     View to kick off the oauth2 flow, this simply redirects the
-    client to the oauth2 providers authorization endpoint
+    client to the oauth2 provider's authorization endpoint
     """
 
     async def get(self) -> web.Response:
@@ -36,9 +36,10 @@ class CallbackView(web.View):
     Handle the oauth2 callback
     """
 
+
     async def get(self) -> web.Response:
         if self.request.query.get("error") is not None:
-            return await self.request.app.get("ON_ERROR", self.on_error)(self.request)
+            return self.handle_error(self.request, self.request.query["error"])
 
         async with self.request.app["session"].post(
             self.request.app["TOKEN_URL"],
@@ -52,11 +53,16 @@ class CallbackView(web.View):
         ) as r:  # pylint: disable=invalid-name
             result = await r.json()
 
-        on_login = self.request.app.get("ON_LOGIN", self.on_login)
-        return await on_login(self.request, result)
+        return await self.handle_success(self.request, result)
 
-    async def on_login(self, request, result):  # pylint: disable=unused-argument
-        return web.json_response(result)
+    async def handle_error(self, request: web.Request, error: str):
+        handler = request.app.get("ON_ERROR")
+        if handler is not None:
+            return await handler(request)
+        raise web.HTTPServerError(f"Unhandled OAuth2 Error: {error}")
 
-    async def on_error(self, request):  # pylint: disable=unused-argument
-        raise web.HTTPServerError()
+    async def handle_success(self, request, user_data):
+        handler = request.app.get("ON_LOGIN")
+        if handler is not None:
+            return await handler(self.request, user_data)
+        return web.json_response(user_data)
