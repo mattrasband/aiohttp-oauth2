@@ -40,9 +40,7 @@ class CallbackView(web.View):
         if self.request.query.get("error") is not None:
             return await self.handle_error(self.request, self.request.query["error"])
 
-        params = {
-            "headers": {"Accept": "application/json"},
-        }
+        params = {"headers": {"Accept": "application/json"}}
         body = {
             "client_id": self.request.app["CLIENT_ID"],
             "client_secret": self.request.app["CLIENT_SECRET"],
@@ -55,8 +53,7 @@ class CallbackView(web.View):
             params["data"] = body
 
         async with self.request.app["session"].post(
-            self.request.app["TOKEN_URL"],
-            **params
+            self.request.app["TOKEN_URL"], **params
         ) as r:  # pylint: disable=invalid-name
             result = await r.json()
 
