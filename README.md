@@ -1,5 +1,7 @@
 # aiohttp-oauth2
 
+[![CircleCI](https://circleci.com/gh/mrasband/aiohttp-oauth2.svg?style=svg)](https://circleci.com/gh/mrasband/aiohttp-oauth2)
+
 A provider agnostic oauth2 client library for aiohttp, implemented as a self-composed nested application.
 
 No opinions about auth mechanisms are enforced on the application, an `on_login` and `on_error` coroutine can be provided to implement your own login mechanisms (token, session, etc).
