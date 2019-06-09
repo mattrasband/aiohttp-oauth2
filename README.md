@@ -83,6 +83,8 @@ async def app_factory():
     return app
 ```
 
+As a nice shortcut, use the [`aiohttp_oauth2/client/contrib.py`](aiohttp_oauth2/client/contrib.py) helpers to avoid needing to set the urls explicity.
+
 ### Examples
 
 Check the "examples" directory for working examples:

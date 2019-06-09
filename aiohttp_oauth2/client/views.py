@@ -36,10 +36,9 @@ class CallbackView(web.View):
     Handle the oauth2 callback
     """
 
-
     async def get(self) -> web.Response:
         if self.request.query.get("error") is not None:
-            return self.handle_error(self.request, self.request.query["error"])
+            return await self.handle_error(self.request, self.request.query["error"])
 
         params = {
             "headers": {"Accept": "application/json"},
@@ -67,7 +66,7 @@ class CallbackView(web.View):
         handler = request.app.get("ON_ERROR")
         if handler is not None:
             return await handler(request)
-        raise web.HTTPServerError(f"Unhandled OAuth2 Error: {error}")
+        raise web.HTTPInternalServerError(text=f"Unhandled OAuth2 Error: {error}")
 
     async def handle_success(self, request, user_data):
         handler = request.app.get("ON_LOGIN")

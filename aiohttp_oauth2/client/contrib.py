@@ -1,3 +1,4 @@
+# pylint: disable=invalid-name
 from functools import partial
 
 from .app import oauth2_app

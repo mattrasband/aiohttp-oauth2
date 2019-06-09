@@ -8,7 +8,7 @@ from aiohttp_jinja2 import setup as jinja2_setup, template
 from aiohttp_session import SimpleCookieStorage, get_session, setup as session_setup
 
 
-from aiohttp_oauth2 import oauth2_app
+from aiohttp_oauth2.client.contrib import github
 
 
 @template("index.html")
@@ -45,11 +45,9 @@ def app_factory() -> web.Application:
 
     app.add_subapp(
         "/auth/github/",
-        oauth2_app(
+        github(
             "a1b8c7904865ac38baba",
             "147d82d8ded7a74899fcc4da2b61f8d305bf81c5",
-            "https://github.com/login/oauth/authorize",
-            "https://github.com/login/oauth/access_token",
             on_login=on_github_login,
         ),
     )
