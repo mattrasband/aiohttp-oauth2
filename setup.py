@@ -17,6 +17,7 @@ setup(
     name="aiohttp-oauth2",
     packages=find_packages(exclude=["tests"]),
     python_requires=">=3.7.0",
+    setup_requires=["wheel"],
     url="https://github.com/mrasband/aiohttp-oauth2",
     version=__version__,
     classifiers=[
