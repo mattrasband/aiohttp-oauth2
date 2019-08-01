@@ -19,7 +19,9 @@ class AuthView(web.View):
         params = {
             "client_id": self.request.app["CLIENT_ID"],
             "redirect_uri": redirect_uri(self.request),
+            "response_type": "code",
             # "state": TODO
+            **self.request.app["AUTH_EXTRAS"],
         }
 
         if self.request.app["SCOPES"]:
@@ -46,6 +48,7 @@ class CallbackView(web.View):
             "client_secret": self.request.app["CLIENT_SECRET"],
             "code": self.request.query["code"],
             "redirect_uri": redirect_uri(self.request),
+            "grant_type": "authorization_code",
         }
         if self.request.app["DATA_AS_JSON"]:
             params["json"] = body
