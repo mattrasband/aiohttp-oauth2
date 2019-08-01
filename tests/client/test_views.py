@@ -8,14 +8,16 @@ class TestAuthView:
         assert resp.status == 307
         to = URL(resp.headers["location"])
         assert str(to).startswith(client.server.app["AUTHORIZE_URL"])
-        assert {"client_id", "redirect_uri"} == set(to.query.keys())
+        assert {"client_id", "redirect_uri", "response_type"} == set(to.query.keys())
 
     async def test_redirect_scopes(self, client):
         client.server.app["SCOPES"] = ["foo", "bar"]
         resp = await client.get("/auth", allow_redirects=False)
         assert resp.status == 307
         to = URL(resp.headers["location"])
-        assert {"client_id", "redirect_uri", "scope"} == set(to.query.keys())
+        assert {"client_id", "redirect_uri", "response_type", "scope"} == set(
+            to.query.keys()
+        )
         assert to.query["scope"] == "foo bar"
 
 
