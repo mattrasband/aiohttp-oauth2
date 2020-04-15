@@ -21,6 +21,7 @@ def oauth2_app(  # pylint: disable=too-many-arguments
     on_error: Optional[Callable[[web.Request, str], web.Response]] = None,
     json_data=True,
     auth_extras=None,
+    force_ssl=False,
 ) -> web.Application:
     """
     Factory to generate an aiohttp application configured as an oauth2 client.
@@ -40,6 +41,7 @@ def oauth2_app(  # pylint: disable=too-many-arguments
                       False will use Form Data instead.
     :param auth_extras: If the oauth2 provider supports non-standard parameters this is
                         a way to provide them to the authorization request.
+    :param force_ssl: Force the callback URL to use the https scheme.
     """
     app = web.Application()
 
@@ -53,6 +55,7 @@ def oauth2_app(  # pylint: disable=too-many-arguments
         ON_ERROR=on_error,
         DATA_AS_JSON=json_data,
         AUTH_EXTRAS=auth_extras or {},
+        FORCE_SSL=force_ssl,
     )
     app.cleanup_ctx.append(client_session)
 

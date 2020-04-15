@@ -5,7 +5,11 @@ routes = web.RouteTableDef()  # pylint: disable=invalid-name
 
 
 def redirect_uri(request):
-    return str(request.url.with_path(str(request.app.router["callback"].url_for())))
+    callback = str(request.app.router["callback"].url_for())
+    url = request.url.with_path(str(callback))
+    if request.app["FORCE_SSL"]:
+        url = url.with_scheme("https")
+    return str(url)
 
 
 @routes.view("/auth", name="auth")
