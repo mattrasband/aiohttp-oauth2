@@ -1,4 +1,4 @@
-from aiohttp import web
+from aiohttp import web, FormData
 from yarl import URL
 
 routes = web.RouteTableDef()  # pylint: disable=invalid-name
@@ -53,7 +53,7 @@ class CallbackView(web.View):
         if self.request.app["DATA_AS_JSON"]:
             params["json"] = body
         else:
-            params["data"] = aiohttp.FormData(tuple(body.items()))
+            params["data"] = FormData(tuple(body.items()))
 
         async with self.request.app["session"].post(
             self.request.app["TOKEN_URL"], **params
