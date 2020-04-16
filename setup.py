@@ -1,7 +1,7 @@
 from pathlib import Path
 from setuptools import find_packages, setup
 
-__version__ = "0.0.4"
+__version__ = "0.0.5"
 
 with open(Path(__file__).parent / "README.md") as f:
     long_description = f.read()
@@ -24,6 +24,7 @@ setup(
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: Implementation :: CPython",
     ],
     keywords=["aiohttp", "oauth2"],
