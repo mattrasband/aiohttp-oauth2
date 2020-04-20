@@ -124,3 +124,9 @@ $ pip install -r requirements.txt
 # this just makes the library available for import, don't typically do it :D
 $ PYTHONPATH=".." python github.py
 ```
+
+# Tips
+
+## Incorrect URL scheme (missing `https`)
+
+For `aiohttp`'s URL resolution feature to work with SSL, be sure to use [`aiohttp-remotes`](https://aiohttp-remotes.readthedocs.io/en/stable/). This will ensure that if you are serving your aiohttp application behind any termination point for TLS that aiohttp is still aware via the various forwarding headers that traefik/nginx/etc should set.
