@@ -27,6 +27,9 @@ class AuthView(web.View):
         if self.request.app["SCOPES"]:
             params["scope"] = " ".join(self.request.app["SCOPES"])
 
+        if "state" in self.request.query:
+            params["state"] = self.request.query["state"]
+
         location = str(URL(self.request.app["AUTHORIZE_URL"]).with_query(params))
 
         return web.HTTPTemporaryRedirect(location=location)
