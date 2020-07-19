@@ -1,0 +1,21 @@
+version: "3.4"
+
+services:
+  app:
+    image: aiohttp-oauth2
+    build: .
+    environment:
+      - COINBASE_CLIENT_ID
+      - COINBASE_CLIENT_SECRET
+      - DIGITALOCEAN_CLIENT_ID
+      - DIGITALOCEAN_CLIENT_SECRET
+      - GITHUB_CLIENT_ID
+      - GITHUB_CLIENT_SECRET
+      - GOOGLE_CLIENT_ID
+      - GOOGLE_CLIENT_SECRET
+      - TWITCH_CLIENT_ID
+      - TWITCH_CLIENT_SECRET
+    ports:
+      - "8080:8080"
+    volumes:
+      - ${PWD}/example:/app
