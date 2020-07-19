@@ -125,6 +125,15 @@ $ pip install -r requirements.txt
 $ PYTHONPATH=".." python github.py
 ```
 
+# OAuth2 Setup
+
+As part of the oauth2 spec, you will need to register your application with the oauth2 provider. To do so, you need to know your host (and port), along with the callback URL. Don't forget to include the prefix you used for your subapp.
+
+| Path | Type |
+| ---- | ---- |
+| {path\_prefix}/auth | This is where you need to send your user to log in to the specific provider |
+| {path\_prefix}/callback | This is what handles the oauth2 callback (exchange a code for an access token) |
+
 # Tips
 
 ## Incorrect URL scheme (missing `https`)

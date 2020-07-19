@@ -4,6 +4,18 @@ from functools import partial
 from .app import oauth2_app
 
 
+coinbase = partial(
+    oauth2_app,
+    authorize_url="https://www.coinbase.com/oauth/authorize",
+    token_url="https://api.coinbase.com/oauth/token",
+)
+
+digital_ocean = partial(
+    oauth2_app,
+    authorize_url="https://cloud.digitalocean.com/v1/oauth/authorize",
+    token_url="https://cloud.digitalocean.com/v1/oauth/token",
+)
+
 github = partial(
     oauth2_app,
     authorize_url="https://github.com/login/oauth/authorize",
@@ -23,8 +35,8 @@ slack = partial(
     json_data=False,
 )
 
-twitter = partial(
+twitch = partial(
     oauth2_app,
-    authorize_url="https://api.twitter.com/oauth/authorize",
-    token_url="https://api.twitter.com/oauth2/token",
+    authorize_url="https://id.twitch.tv/oauth2/authorize",
+    token_url="https://id.twitch.tv/oauth2/token",
 )
