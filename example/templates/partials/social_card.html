@@ -1,0 +1,19 @@
+<div class="card">
+    {% if img %}<img src="{{ img }}" class="card-img-top"/>{% endif %}
+
+    <div class="card-body">
+        <h5 class="card-title">
+            {{ provider | title }}
+        </h5>
+        <p class="card-text">
+            {% if username %}
+                {{ username }}
+            {% else %}
+                <span class="text-muted">Not logged in</span>
+            {% endif %}
+        </p>
+    </div>
+    <div class="card-footer">
+        <a class="btn btn-outline-primary btn-sm float-right {% if username %}disabled{% endif %}" href="{{ login_url }}">Login</a>
+    </div>
+</div>
