@@ -28,3 +28,10 @@ twitter = partial(
     authorize_url="https://api.twitter.com/oauth/authorize",
     token_url="https://api.twitter.com/oauth2/token",
 )
+
+discord = partial(
+    oauth2_app,
+    authorize_url="https://discord.com/api/oauth2/authorize",
+    token_url="https://discord.com/api/oauth2/token",
+    json_data=False,
+)
