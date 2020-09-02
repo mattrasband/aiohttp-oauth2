@@ -1,5 +1,7 @@
-from aiohttp import web, FormData
+import os
+
 from yarl import URL
+from aiohttp import web, FormData
 
 routes = web.RouteTableDef()  # pylint: disable=invalid-name
 
@@ -8,7 +10,7 @@ def redirect_uri(request):
     return str(request.url.with_path(str(request.app.router["callback"].url_for())))
 
 
-@routes.view("/auth", name="auth")
+@routes.view(os.environ.get("AUTH_VIEW_PATH", "/auth"), name="auth")
 class AuthView(web.View):
     """
     View to kick off the oauth2 flow, this simply redirects the
@@ -32,7 +34,7 @@ class AuthView(web.View):
         return web.HTTPTemporaryRedirect(location=location)
 
 
-@routes.view("/callback", name="callback")
+@routes.view(os.environ.get("CALLBACK_VIEW_PATH", "/callback"), name="callback")
 class CallbackView(web.View):
     """
     Handle the oauth2 callback
@@ -50,6 +52,7 @@ class CallbackView(web.View):
             "redirect_uri": redirect_uri(self.request),
             "grant_type": "authorization_code",
         }
+        
         if self.request.app["DATA_AS_JSON"]:
             params["json"] = body
         else:
@@ -64,12 +67,16 @@ class CallbackView(web.View):
 
     async def handle_error(self, request: web.Request, error: str):
         handler = request.app.get("ON_ERROR")
+        
         if handler is not None:
             return await handler(request)
+        
         raise web.HTTPInternalServerError(text=f"Unhandled OAuth2 Error: {error}")
 
     async def handle_success(self, request, user_data):
         handler = request.app.get("ON_LOGIN")
+        
         if handler is not None:
             return await handler(self.request, user_data)
+        
         return web.json_response(user_data)
